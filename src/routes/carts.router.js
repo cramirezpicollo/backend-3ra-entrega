@@ -1,16 +1,19 @@
-import { Router } from "express";
-import { CartController } from "../controller/carts.controller.js";
+const express = require("express");
+const router = express.Router();
+const CartController = require("../controllers/cart.controller.js");
+const authMiddleware = require("../middleware/authmiddleware.js");
+const cartController = new CartController();
 
-const cartController =  new CartController();
-const cartsRouter = Router ();
+router.use(authMiddleware);
 
-cartsRouter.post("/", cartController.nuevoCarrito);
-cartsRouter.get("/:cid", cartController.obtenerCarrito);
-cartsRouter.post("/:cid/product/:pid", cartController.agregarProductoEnCarrito);
-cartsRouter.delete('/:cid/product/:pid', cartController.eliminarDelCarrito);
-cartsRouter.put('/:cid', cartController.actualizarProductosEnCarrito);
-cartsRouter.put('/:cid/product/:pid', cartController.actualizarCantidad);
-cartsRouter.delete('/:cid', cartController.vaciarElCarrito);
+router.post("/", cartController.nuevoCarrito);
+router.get("/:cid", cartController.obtenerProductosDeCarrito);
+router.post("/:cid/product/:pid", cartController.agregarProductoEnCarrito);
+router.delete('/:cid/product/:pid', cartController.eliminarProductoDeCarrito);
+router.put('/:cid', cartController.actualizarProductosEnCarrito);
+router.put('/:cid/product/:pid', cartController.actualizarCantidad);
+router.delete('/:cid', cartController.vaciarCarrito);
+router.post('/:cid/purchase', cartController.finalizarCompra);
 
 
-export {cartsRouter};
+module.exports = router;

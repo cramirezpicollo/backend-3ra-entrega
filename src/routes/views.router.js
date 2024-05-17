@@ -1,15 +1,17 @@
-import { Router } from "express";
-import { ViewController } from "../controller/views.controller.js";
-import passport from "passport";
+const express = require("express");
+const router = express.Router();
+const ViewsController = require("../controllers/view.controller.js");
+const viewsController = new ViewsController();
+const checkUserRole = require("../middleware/checkrole.js");
+const passport = require("passport");
 
-const viewRouter = Router ();
-const viewsController = new ViewController ();
+router.get("/products", checkUserRole(['usuario']),passport.authenticate('jwt', { session: false }), viewsController.renderProducts);
 
-viewRouter.get("/products", viewsController.renderProducts);
+router.get("/carts/:cid", viewsController.renderCart);
+router.get("/login", viewsController.renderLogin);
+router.get("/register", viewsController.renderRegister);
+router.get("/realtimeproducts", checkUserRole(['admin']), viewsController.renderRealTimeProducts);
+router.get("/chat", checkUserRole(['usuario']) ,viewsController.renderChat);
+router.get("/", viewsController.renderHome);
 
-viewRouter.get("/carts/:cid", viewsController.renderCart);
-viewRouter.get("/login", viewsController.renderLogin);
-viewRouter.get("/register", viewsController.renderRegister);
-viewRouter.get("/", viewsController.renderProfile);
-
-export {viewRouter};
+module.exports = router;

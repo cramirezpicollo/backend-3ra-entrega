@@ -1,56 +1,51 @@
-import express from "express";
-import ExpressHandlebars from "express-handlebars";
-import { Server } from "socket.io";
-
-import { productsRouter } from "./routes/products.router.js";
-import { cartsRouter } from "./routes/carts.router.js";
-import { userRouter } from "./routes/user.router.js";
-import { viewRouter } from "./routes/views.router.js";
-import "./database.js"
-import MongoStore from "connect-mongo";
-import session from "express-session";
-import passport from "passport";
-import { initializePassport } from "./config/passport.config.js";
-
-
-const PORT = 8080;
-
+const express = require("express");
 const app = express();
+const exphbs = require("express-handlebars");
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const initializePassport = require("./config/passport.config.js");
+const cors = require("cors");
+const path = require('path');
+const PUERTO = 8080;
+require("./database.js");
 
-//Configuro Express HB
-app.engine("handlebars", ExpressHandlebars.engine());
+const productsRouter = require("./routes/products.router.js");
+const cartsRouter = require("./routes/carts.router.js");
+const viewsRouter = require("./routes/views.router.js");
+const userRouter = require("./routes/user.router.js");
+
+//Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+//app.use(express.static("./src/public"));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
+//Passport 
+app.use(passport.initialize());
+initializePassport();
+app.use(cookieParser());
+
+//AuthMiddleware
+const authMiddleware = require("./middleware/authmiddleware.js");
+app.use(authMiddleware);
+
+//Handlebars
+app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");
 
-//Middleware
-app.use(express.static("./src/public"));
-app.use(express.urlencoded({extended:true}));
-app.use(express.json())
 
-//Middleware Session
-app.use (session({
-    secret: "secretCoder",
-    resave: true,
-    saveUninitialized: true,
-    store: MongoStore.create ({
-        mongoUrl: "mongodb+srv://cramirezpicollo:walenten1.@cluster0.i0f05yt.mongodb.net/Ecommerce?retryWrites=true&w=majority&appName=Cluster0"
+//Rutas: 
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
+app.use("/api/users", userRouter);
+app.use("/", viewsRouter);
 
-    })
+const httpServer = app.listen(PUERTO, () => {
+    console.log(`Servidor escuchando en el puerto ${PUERTO}`);
+});
 
-}))
-
-//Passport
-initializePassport ();
-app.use (passport.initialize());
-app.use (passport.session());
-
-//Rutas
-app.use("/", viewRouter)
-app.use("/api/products", productsRouter)
-app.use("/api/carts", cartsRouter)
-app.use("/api/users", userRouter)
-
-
-const httpServer = app.listen(PORT, (req, res) => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
-})
+///Websockets: 
+const SocketManager = require("./sockets/socketmanager.js");
+new SocketManager(httpServer);
