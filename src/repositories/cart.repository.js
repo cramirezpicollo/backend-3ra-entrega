@@ -35,7 +35,7 @@ class CartRepository {
                 carrito.products.push({ product: productId, quantity });
             }
 
-            //Vamos a marcar la propiedad "products" como modificada antes de guardar: 
+            
             carrito.markModified("products");
 
             await carrito.save();

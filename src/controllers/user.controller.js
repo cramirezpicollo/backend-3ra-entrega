@@ -13,7 +13,7 @@ class UserController {
                 return res.status(400).send("El usuario ya existe");
             }
 
-            //Creo un nuevo carrito: 
+           
             const nuevoCarrito = new CartModel();
             await nuevoCarrito.save();
 
@@ -75,7 +75,7 @@ class UserController {
     }
 
     async profile(req, res) {
-        //Con DTO: 
+      
         const userDto = new UserDTO (req.user.first_name, req.user.last_name, req.user.role);
         const isAdmin = req.user.role === 'admin';
         res.render("profile", { user: userDto, isAdmin });

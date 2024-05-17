@@ -24,12 +24,12 @@ class ViewsController {
 
             const nuevoArray = productos.map(producto => {
                 const { _id, ...rest } = producto.toObject();
-                return { id: _id, ...rest }; // Agregar el ID al objeto
+                return { id: _id, ...rest }; 
             });
 
 
             const cartId = req.user.cart.toString();
-            //console.log(cartId);
+        
 
             res.render("products", {
                 productos: nuevoArray,
