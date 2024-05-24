@@ -14,6 +14,10 @@ const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/views.router.js");
 const userRouter = require("./routes/user.router.js");
 
+//importo mock y manejador errores
+const mockingProductsRouter = require ("./routes/mockingproducts.js");
+const manejadorDeError = require ("./middleware/error.js")
+
 //Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,6 +34,7 @@ app.use(cookieParser());
 const authMiddleware = require("./middleware/authmiddleware.js");
 app.use(authMiddleware);
 
+
 //Handlebars
 app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars");
@@ -42,10 +47,19 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/users", userRouter);
 app.use("/", viewsRouter);
 
+//Ruta Faker
+app.use("/api",mockingProductsRouter);
+
+//Middleware para Manejo de Errores
+app.use("/register", userRouter);
+app.use (manejadorDeError);
+
+
 const httpServer = app.listen(PUERTO, () => {
     console.log(`Servidor escuchando en el puerto ${PUERTO}`);
 });
 
 ///Websockets: 
 const SocketManager = require("./sockets/socketmanager.js");
+const manejadorError = require("./middleware/error.js");
 new SocketManager(httpServer);
