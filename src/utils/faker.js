@@ -1,7 +1,7 @@
 const faker = require("@faker-js/faker");
 
 const generarProductosFaker = () => {
-    console.log ("generando producto con faker");
+    req.logger.debug("generando productos con faker");
     return {
         producto: faker.commerce.product(),
         precio: faker.commerce.price(),

@@ -14,6 +14,10 @@ const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/views.router.js");
 const userRouter = require("./routes/user.router.js");
 
+const addLogger= require ("./utils/logger.js")
+
+
+
 //importo mock y manejador errores
 const mockingProductsRouter = require ("./routes/mockingproducts.js");
 const manejadorDeError = require ("./middleware/error.js")
@@ -24,6 +28,20 @@ app.use(express.json());
 //app.use(express.static("./src/public"));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+
+//Middleware Logger
+app.use(addLogger);
+
+//Rutas logger
+app.get ("/loggerTest", (req,res)=>{
+    req.logger.debug ("Debug");
+    req.logger.http ("http");
+    req.logger.info ("info");
+    req.logger.warn ("warning");
+    req.logger.error ("error");
+
+    res.send ("Logs generados");
+})
 
 //Passport 
 app.use(passport.initialize());

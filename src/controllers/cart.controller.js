@@ -104,8 +104,6 @@ class CartController {
             res.status(500).send("Error");
         }
     }
-
-    //Ultima Pre Entrega: 
     async finalizarCompra(req, res) {
         const cartId = req.params.cid;
         try {

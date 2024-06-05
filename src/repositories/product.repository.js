@@ -4,14 +4,14 @@ class ProductRepository {
     async agregarProducto({ title, description, price, img, code, stock, category, thumbnails }) {
         try {
             if (!title || !description || !price || !code || !stock || !category) {
-                console.log("Todos los campos son obligatorios");
+                req.logger.warn ("todos los campos son obligatorios");;
                 return;
             }
 
             const existeProducto = await ProductModel.findOne({ code: code });
 
             if (existeProducto) {
-                console.log("El código debe ser único, malditooo!!!");
+                req.logger.warn ("codigo repetido");;
                 return;
             }
 
@@ -88,11 +88,11 @@ class ProductRepository {
             const producto = await ProductModel.findById(id);
 
             if (!producto) {
-                console.log("Producto no encontrado");
+                req.logger.debug("prodcuto no encontrado");
                 return null;
             }
 
-            console.log("Producto encontrado!! Claro que siiiiii");
+            req.logger.debug ("producto encontrado");
             return producto;
         } catch (error) {
             throw new Error("Error");
@@ -103,11 +103,11 @@ class ProductRepository {
         try {
             const actualizado = await ProductModel.findByIdAndUpdate(id, productoActualizado);
             if (!actualizado) {
-                console.log("No se encuentra che el producto");
+                req.logger.debug ("no se encuentra el producto");
                 return null;
             }
 
-            console.log("Producto actualizado con exito, como todo en mi vidaa!");
+            req.logger.debug ("producto actualizado con exito");
             return actualizado;
         } catch (error) {
             throw new Error("Error");
@@ -119,11 +119,11 @@ class ProductRepository {
             const deleteado = await ProductModel.findByIdAndDelete(id);
 
             if (!deleteado) {
-                console.log("No se encuentraaaa, busca bien!");
+                req.logger.debug ("producto no se encuentra");;
                 return null;
             }
 
-            console.log("Producto eliminado correctamente!");
+            req.logger.debug ("producto eliminado exitosamente");
             return deleteado;
         } catch (error) {
             throw new Error("Error");

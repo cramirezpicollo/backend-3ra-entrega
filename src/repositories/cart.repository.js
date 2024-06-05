@@ -15,7 +15,7 @@ class CartRepository {
         try {
             const carrito = await CartModel.findById(idCarrito);
             if (!carrito) {
-                console.log("No existe ese carrito con el id");
+                req.logger.warn ("warning");
                 return null;
             }
             return carrito;
