@@ -14,13 +14,14 @@ const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/views.router.js");
 const userRouter = require("./routes/user.router.js");
 
+
+//importo Logger
 const addLogger= require ("./utils/logger.js")
-
-
 
 //importo mock y manejador errores
 const mockingProductsRouter = require ("./routes/mockingproducts.js");
-const manejadorDeError = require ("./middleware/error.js")
+const manejadorError = require ("./middleware/error.js")
+
 
 //Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -29,8 +30,14 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+
+//Middleware para Manejo de Errores
+app.use("/register", userRouter);
+app.use (manejadorError);
+
 //Middleware Logger
 app.use(addLogger);
+
 
 //Rutas logger
 app.get ("/loggerTest", (req,res)=>{
@@ -68,10 +75,6 @@ app.use("/", viewsRouter);
 //Ruta Faker
 app.use("/api",mockingProductsRouter);
 
-//Middleware para Manejo de Errores
-app.use("/register", userRouter);
-app.use (manejadorDeError);
-
 
 const httpServer = app.listen(PUERTO, () => {
     console.log(`Servidor escuchando en el puerto ${PUERTO}`);
@@ -79,5 +82,4 @@ const httpServer = app.listen(PUERTO, () => {
 
 ///Websockets: 
 const SocketManager = require("./sockets/socketmanager.js");
-const manejadorError = require("./middleware/error.js");
 new SocketManager(httpServer);

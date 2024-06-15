@@ -1,4 +1,3 @@
-
 const generateUniqueCode = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const codeLength = 8;

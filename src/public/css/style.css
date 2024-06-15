@@ -1,5 +1,5 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: sans-serif;
 
 }
 
@@ -15,9 +15,7 @@ body {
 }
 
 .encabezado {
-    /* background-color: bisque; */
-    border-top: solid 20px #c1101a;
-    /* border-bottom: solid 1px #c1101a; */
+    border-top: solid 20px green;
     margin-bottom: 30px;
 }
 
@@ -26,20 +24,20 @@ nav li a {
     text-decoration: none;
     margin: 15px;
     color: gray;
-    border-left: 1px solid red;
-    border-right: 1px solid red;
+    border-left: 1px solid blue;
+    border-right: 1px solid blue;
     padding: 0 15px;
 }
 
 a:hover {
-    background-color: #c1101a;
+    background-color: black;
     color: #fafafa;
 }
 
 /* PRODUCTOS */
 
 .tituloProductos {
-    background-color: #c1101a;
+    background-color: green;
     color: #fafafa;
     text-align: center;
     font-weight: bold;
@@ -56,13 +54,13 @@ a:hover {
 
 
 .colorBtn {
-    background-color: #c1101a;
+    background-color: green;
     color: #fafafa;
     font-size: 18px;
 }
 
 .colorBtn:hover {
-    background-color: red;
+    background-color: black;
     color: #fafafa;
 }
 
@@ -96,7 +94,7 @@ label {
     color: #333;
 }
 
-.inputMessi {
+.inputMios {
     width: 100%;
     padding: 8px;
     margin-bottom: 20px;
@@ -108,7 +106,7 @@ label {
 .btnMios {
     width: 100%;
     padding: 10px;
-    background-color: #c1101a;
+    background-color: blue;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -117,9 +115,24 @@ label {
 }
 
 .btnMios:hover {
-    background-color: #ff1f33;
+    background-color: blue;
 }
 
 i {
     font-size: 35px;
+}
+
+.grupo-btn {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.noSub {
+    text-decoration: none;
+    text-align: center;
+}
+
+.formulario span {
+    font-weight: bold;
 }

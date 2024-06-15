@@ -8,7 +8,7 @@
         </button>
         <nav class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav fuentesNav ms-auto">
-                <li class="nav-item">
+               {{! <li class="nav-item">
                     <a href="/login">Inicio de Sesión</a>
                 </li>
                 <li class="nav-item">
@@ -16,7 +16,20 @@
                 </li>
                 <li class="nav-item">
                     <a href="/api/users/profile">Mi Perfil</a>
-                </li>
+                </li> }}
+
+                {{#if isAuthenticated}} 
+                    <li class="nav-item">
+                        <a href="/api/users/profile">Mi Perfil</a>
+                    </li>
+                {{else}}
+                    <li class="nav-item">
+                        <a href="/login">Inicio de Sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/register">Registrarse</a>
+                    </li>
+                {{/if}}
             </ul>
         </nav>
     </div>

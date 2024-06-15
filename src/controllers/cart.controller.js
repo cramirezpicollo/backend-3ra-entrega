@@ -5,6 +5,8 @@ const cartRepository = new CartRepository();
 const ProductRepository = require("../repositories/product.repository.js");
 const productRepository = new ProductRepository();
 const { generateUniqueCode, calcularTotal } = require("../utils/cartutils.js");
+const EmailManager = require("../services/email.js");
+const emailManager = new EmailManager();
 
 
 class CartController {
@@ -138,11 +140,17 @@ class CartController {
 
       
             cart.products = cart.products.filter(item => productosNoDisponibles.some(productId => productId.equals(item.product)));
-
-      
             await cart.save();
 
-            res.status(200).json({ productosNoDisponibles });
+
+            await emailManager.enviarCorreoCompra(userWithCart.email, userWithCart.first_name, ticket._id);
+            
+            res.render("checkout", {
+                cliente: userWithCart.first_name,
+                email: userWithCart.email,
+                numTicket: ticket._id 
+            });
+            
         } catch (error) {
             console.error('Error al procesar la compra:', error);
             res.status(500).json({ error: 'Error interno del servidor' });
