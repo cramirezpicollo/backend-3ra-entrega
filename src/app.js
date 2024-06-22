@@ -23,6 +23,32 @@ const mockingProductsRouter = require ("./routes/mockingproducts.js");
 const manejadorError = require ("./middleware/error.js")
 
 
+//swagger
+//importo swagger
+const swaggerJSDoc = require ("swagger-jsdoc")
+const swaggerUiExpress = require ("swagger-ui-express")
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info:{
+            title: "Documentación sobre La Tiendita",
+            description: "App dedicada a la venta de comestibles"
+        }
+    },
+    apis: ["./src/docs/**/*.yaml"]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+
+app.use ("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+
+
+
+
+
+
+
 //Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

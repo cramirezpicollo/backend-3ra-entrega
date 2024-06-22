@@ -1,0 +1,214 @@
+openapi: 3.0.1
+info:
+  title: Documentación de la App Tienda Marolio
+  description: E-commerce
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/carts:
+    post:
+      summary: Generar nuevo carrito
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  docs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/carts'
+                  totalPages:
+                    type: number
+                  prevPage:
+                    type: number
+                  nextPage:
+                    type: number
+                  page:
+                    type: number
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevLink:
+                    type: string
+                  nextLink:
+                    type: string
+  /api/carts/{cid}:
+    get:
+      summary: Obtener un producto del carrito por su ID
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carts'
+    put:
+      summary: Actualizar productos en el carrito
+      tags:
+      - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/carts'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carts'
+    delete:
+      summary: Vaciar carrito
+      tags:
+      - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carts'
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agregar producto en un carrito
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  docs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/carts'
+                  totalPages:
+                    type: number
+                  prevPage:
+                    type: number
+                  nextPage:
+                    type: number
+                  page:
+                    type: number
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevLink:
+                    type: string
+                  nextLink:
+                    type: string
+    put:
+      summary: Agregar un producto por su ID en el carrito
+      tags:
+      - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/carts'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carts'
+    delete:
+      summary: Eliminar un producto del carrito
+      tags:
+      - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carts'
+
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Finalizar compra
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  docs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/carts'
+                  totalPages:
+                    type: number
+                  prevPage:
+                    type: number
+                  nextPage:
+                    type: number
+                  page:
+                    type: number
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevLink:
+                    type: string
+                  nextLink:
+                    type: string
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        title:
+          type: string
+        quantity:
+          type: number

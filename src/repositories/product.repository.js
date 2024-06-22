@@ -15,6 +15,8 @@ class ProductRepository {
                 return;
             }
 
+            console.log("Owner", owner);
+
             const newProduct = new ProductModel({
                 title,
                 description,
@@ -24,7 +26,8 @@ class ProductRepository {
                 stock,
                 category,
                 status: true,
-                thumbnails: thumbnails || []
+                thumbnails: thumbnails || [],
+                owner
             });
 
             await newProduct.save();
